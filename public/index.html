@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#0B0D13" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="PACT" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/icon-192.png" />
+  <title>PACT — Sport</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg-main:#0B0D13; --bg-card:#131722; --neon-cyan:#00E5FF; --neon-pink:#FF2A85; }
+    * { font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif; -webkit-tap-highlight-color:transparent; }
+    body { background-color:#06070A; color:#F8FAFC; }
+    input, textarea { user-select:text; }
+    .app-bg { background:radial-gradient(circle at 50% 0%, rgba(0,229,255,.08) 0%, rgba(255,42,133,.04) 35%, #0B0D13 70%); background-color:var(--bg-main); }
+    .neon-border-cyan { border-color:rgba(0,229,255,.4); box-shadow:0 4px 25px -4px rgba(0,229,255,.15); }
+    .neon-border-pink { border-color:rgba(255,42,133,.4); box-shadow:0 4px 25px -4px rgba(255,42,133,.18); }
+    .btn-neon-cyan { background:linear-gradient(135deg,#00E5FF 0%,#00B8D4 100%); color:#06070A; box-shadow:0 4px 18px rgba(0,229,255,.3); }
+    .btn-neon-pink { background:linear-gradient(135deg,#FF2A85 0%,#D81B60 100%); color:#fff; box-shadow:0 4px 18px rgba(255,42,133,.3); }
+    button:disabled { opacity:.5; pointer-events:none; }
+    .no-scrollbar::-webkit-scrollbar { display:none; } .no-scrollbar { -ms-overflow-style:none; scrollbar-width:none; }
+    input[type=range] { accent-color:#FF2A85; }
+    input, select { outline:none; } input:focus, select:focus { border-color:rgba(0,229,255,.6) !important; }
+    input[type=date], input[type=time] { color-scheme:dark; }
+    .safe-top { padding-top:max(1.75rem, env(safe-area-inset-top)); }
+    .safe-bottom { padding-bottom:max(1rem, env(safe-area-inset-bottom)); }
+    #main > div { max-width:46rem; margin-left:auto; margin-right:auto; }
+    .fade { animation:fade .25s ease; } @keyframes fade { from{opacity:0; transform:translateY(6px)} to{opacity:1; transform:none} }
+    .spin { animation:spin 1s linear infinite; } @keyframes spin { to{transform:rotate(360deg)} }
+  </style>
+</head>
+<body class="min-h-screen">
+  <div id="frame" class="w-full h-[100dvh] app-bg flex flex-col overflow-hidden relative">
+    <div id="boot" class="flex-1 flex items-center justify-center">
+      <div class="w-8 h-8 rounded-full border-2 border-[#00E5FF] border-t-transparent spin"></div>
+    </div>
+    <div id="root" class="hidden flex-1 flex flex-col min-h-0"></div>
+    <div id="modal" class="hidden absolute inset-0 z-30 bg-black/80 backdrop-blur-sm flex items-center justify-center p-6"></div>
+    <div id="toast" class="hidden absolute top-6 left-6 right-6 max-w-md mx-auto z-40 bg-[#131722] border border-[#00E5FF]/60 px-4 py-3 rounded-2xl text-center shadow-xl"><p id="toastText" class="text-xs font-semibold text-white"></p></div>
+  </div>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+  <script>
+    // Filet de sécurité : si l'app ne démarre pas, afficher la cause au lieu de tourner en boucle
+    function pactFail(msg) { var b = document.getElementById('boot'); if (b && !b.dataset.err) { b.dataset.err = 1; b.innerHTML = '<div class="max-w-sm text-center p-6 space-y-2"><p class="text-white font-bold">PACT ne démarre pas</p><p class="text-xs text-slate-400">' + msg + '</p></div>'; } }
+    window.addEventListener('error', function (e) { pactFail('Erreur : ' + e.message); });
+    setTimeout(function () { if (!document.getElementById('boot').classList.contains('hidden')) pactFail(location.protocol === 'file:' ? "Ouvre l'app via le serveur : lance <code>python3 server.py</code> puis va sur <b>http://localhost:8000</b> (pas en double-cliquant sur le fichier)." : 'Le serveur ne répond pas. Vérifie que <code>python3 server.py</code> tourne.'); }, 6000);
+  </script>
+</body>
+</html>

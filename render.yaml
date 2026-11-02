@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: pact
+    runtime: docker
+    plan: starter        # le disque persistant nécessite un plan payant
+    healthCheckPath: /api/config
+    disk:
+      name: pact-data
+      mountPath: /app/data
+      sizeGB: 1
+    envVars:
+      - key: BASE_URL
+        sync: false      # à renseigner : https://<ton-service>.onrender.com
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        value: "587"
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      - key: SMTP_FROM
+        sync: false
+      - key: GOOGLE_CLIENT_ID
+        sync: false

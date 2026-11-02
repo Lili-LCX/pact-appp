@@ -1,0 +1,9 @@
+{
+  "appId": "fr.pact.app",
+  "appName": "PACT",
+  "webDir": "public",
+  "backgroundColor": "#0B0D13",
+  "ios": { "contentInset": "never" },
+  "server": { "androidScheme": "https" }
+}
+
