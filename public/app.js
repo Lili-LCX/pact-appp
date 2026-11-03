@@ -518,8 +518,9 @@ async function refresh() {
   } catch (e) { toast(e.message); }
 }
 
+const ADMIN_EMAILS = ['eliottlcx@gmail.com', 'mariecomer158@gmail.com'];
 function isAdminUser() {
-  return Boolean(S.user && String(S.user.email || '').toLowerCase() === 'eliottlcx@gmail.com');
+  return Boolean(S.user && ADMIN_EMAILS.includes(String(S.user.email || '').trim().toLowerCase()));
 }
 
 function renderShell() {

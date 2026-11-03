@@ -768,11 +768,12 @@ exports.handler = async (event, context) => {
   const uid = auth.startsWith("Bearer ") ? readSession(auth.slice(7)) : null;
   const user = uid ? db.users.find((x) => x.id === uid) : null;
 
-  // Admin / Study Export routes (strictly reserved for eliottlcx@gmail.com)
-  const isAdmin = Boolean(user && String(user.email || "").toLowerCase() === "eliottlcx@gmail.com");
+  // Admin / Study Export routes (strictly reserved for eliottlcx@gmail.com & mariecomer158@gmail.com)
+  const ADMIN_EMAILS = ["eliottlcx@gmail.com", "mariecomer158@gmail.com"];
+  const isAdmin = Boolean(user && ADMIN_EMAILS.includes(String(user.email || "").trim().toLowerCase()));
 
   if (path === "/api/admin/users" && method === "GET") {
-    if (!isAdmin) return reply(403, { error: "Accès réservé au compte administrateur (eliottlcx@gmail.com)." });
+    if (!isAdmin) return reply(403, { error: "Accès réservé aux comptes administrateurs." });
     const rows = db.users.map((u) => {
       const st = computeStats(db, u.id);
       const totalPacts = db.pacts.filter((p) => p.user_id === u.id).length;
