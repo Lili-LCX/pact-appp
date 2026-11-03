@@ -29,7 +29,13 @@ def load_env():
 load_env()
 PORT = int(os.environ.get("PORT", "8000"))
 HOST = os.environ.get("HOST", "0.0.0.0")
+BASE_URL_SET = bool(os.environ.get("BASE_URL"))
 BASE_URL = os.environ.get("BASE_URL", f"http://localhost:{PORT}").rstrip("/")
+_req = threading.local()  # origine de la requête courante (liens corrects derrière un tunnel)
+
+
+def base_url():
+    return getattr(_req, "base", None) or BASE_URL
 SMTP_HOST = os.environ.get("SMTP_HOST", "")
 SMTP_PORT = int(os.environ.get("SMTP_PORT", "587"))
 SMTP_USER = os.environ.get("SMTP_USER", "")
@@ -203,7 +209,7 @@ def send_mail(to, subject, title, text, btn, link):
 
 
 def send_verification(user):
-    link = f"{BASE_URL}/api/verify?token={new_token(user['id'], 'verify', 48)}"
+    link = f"{base_url()}/api/verify?token={new_token(user['id'], 'verify', 48)}"
     send_mail(user["email"], "Confirme ton adresse e-mail — PACT", "Bienvenue sur PACT",
               "Confirme ton adresse e-mail pour activer ton compte et commencer à t'engager.", "Confirmer mon e-mail", link)
     return link
@@ -387,7 +393,7 @@ def route(h, method, path, body, user):
         u = q("SELECT * FROM users WHERE email=?", (str(body.get("email", "")).strip().lower(),), one=True)
         link = None
         if u:
-            link = f"{BASE_URL}/?reset={new_token(u['id'], 'reset', 1)}"
+            link = f"{base_url()}/?reset={new_token(u['id'], 'reset', 1)}"
             send_mail(u["email"], "Réinitialisation du mot de passe — PACT", "Nouveau mot de passe",
                       "Clique sur le bouton pour choisir un nouveau mot de passe. Le lien expire dans 1 heure.", "Choisir un mot de passe", link)
         return {"ok": True, "devLink": link if DEV_LINKS else None}
@@ -521,6 +527,10 @@ class Handler(BaseHTTPRequestHandler):
                 body = json.loads(self.rfile.read(min(n, 100_000)) or b"{}")
             except Exception:
                 return self.send_json(400, {"error": "Requête invalide."})
+        if not BASE_URL_SET:
+            host = self.headers.get("X-Forwarded-Host") or self.headers.get("Host")
+            proto = self.headers.get("X-Forwarded-Proto", "http").split(",")[0]
+            _req.base = f"{proto}://{host}" if host else None
         user = None
         auth = self.headers.get("Authorization", "")
         if auth.startswith("Bearer "):

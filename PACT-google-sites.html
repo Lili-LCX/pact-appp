@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PACT — L'engagement sportif</title>
+<style>
+  :root{--bg:#0B0D13;--card:#131722;--cyan:#00E5FF;--pink:#FF2A85;--mut:#94A3B8;--line:rgba(255,255,255,.1)}
+  *{box-sizing:border-box;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;min-height:100%;background:radial-gradient(circle at 50% 0%,rgba(0,229,255,.08),rgba(255,42,133,.04) 35%,var(--bg) 70%) fixed,var(--bg);color:#F8FAFC}
+  button{cursor:pointer;font:inherit;color:inherit}
+  .app{max-width:980px;margin:0 auto;padding:20px 20px 96px}
+  header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}
+  .logo{font-size:26px;font-weight:800;letter-spacing:-.5px}.logo i{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--cyan);box-shadow:0 0 8px var(--cyan);margin-left:6px}
+  .sub{font-size:12px;color:var(--mut);margin-top:2px}
+  .pill{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:8px 14px;text-align:right}
+  .pill small{display:block;font-size:10px;color:var(--mut)}.pill b{color:var(--cyan);font-size:14px}
+  nav{display:flex;gap:8px;margin-bottom:20px}
+  nav button{flex:1;max-width:160px;padding:10px;border-radius:12px;border:1px solid var(--line);background:none;color:var(--mut);font-size:13px;font-weight:600}
+  nav button.on{border-color:rgba(0,229,255,.5);background:rgba(0,229,255,.1);color:var(--cyan)}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:22px;margin-bottom:16px}
+  .cy{border-color:rgba(0,229,255,.4);box-shadow:0 4px 25px -4px rgba(0,229,255,.15)}
+  .pk{border-color:rgba(255,42,133,.4);box-shadow:0 4px 25px -4px rgba(255,42,133,.18)}
+  .row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+  .week{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+  .day{padding:10px 0;border-radius:16px;border:1px solid rgba(255,255,255,.05);background:var(--card);color:var(--mut);display:flex;flex-direction:column;align-items:center;gap:3px}
+  .day.on{border-color:var(--cyan);background:rgba(0,229,255,.1);color:#fff}
+  .day span{font-size:10px}.day b{font-size:13px}.dot{width:6px;height:6px;border-radius:50%;background:#334155}
+  .dot.p{background:#fff}.dot.d{background:var(--cyan);box-shadow:0 0 6px var(--cyan)}.dot.f{background:var(--pink);box-shadow:0 0 6px var(--pink)}
+  h2{margin:0;font-size:24px;letter-spacing:-.5px}h3{margin:0;font-size:20px}
+  .t{font-size:12px;color:var(--mut)}.c{color:var(--cyan);font-weight:600;font-size:12px}
+  .badge{font-size:12px;font-weight:700;padding:4px 12px;border-radius:99px;border:1px solid}
+  .b-pk{color:var(--pink);background:rgba(255,42,133,.15);border-color:rgba(255,42,133,.3)}
+  .b-cy{color:var(--cyan);background:rgba(0,229,255,.15);border-color:rgba(0,229,255,.3)}
+  .btn{width:100%;padding:14px;border-radius:16px;border:0;font-size:13px;font-weight:700}
+  .btn-c{background:linear-gradient(135deg,#00E5FF,#00B8D4);color:#06070A;box-shadow:0 4px 18px rgba(0,229,255,.3)}
+  .btn-p{background:linear-gradient(135deg,#FF2A85,#D81B60);color:#fff;box-shadow:0 4px 18px rgba(255,42,133,.3)}
+  .btn-g{padding:10px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.05);font-size:12px;font-weight:600;color:#CBD5E1}
+  .btn-r{padding:10px;border-radius:12px;border:1px solid rgba(255,42,133,.3);background:rgba(255,42,133,.1);font-size:12px;font-weight:600;color:var(--pink)}
+  .btn-o{width:100%;padding:14px;border-radius:16px;border:1px solid rgba(0,229,255,.5);background:none;color:var(--cyan);font-size:13px;font-weight:600}
+  button:disabled{opacity:.4;cursor:not-allowed}
+  .acts{margin-top:20px;display:grid;gap:10px}.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .res{padding:12px;border-radius:16px;text-align:center;font-size:12px;font-weight:600;line-height:1.6}
+  .res.d{background:rgba(0,229,255,.1);border:1px solid rgba(0,229,255,.3);color:var(--cyan)}
+  .res.f{background:rgba(255,42,133,.1);border:1px solid rgba(255,42,133,.3);color:var(--pink)}
+  .res small{display:block;color:#CBD5E1;font-weight:400}
+  label{display:block;font-size:12px;font-weight:600;color:#CBD5E1;margin:0 0 6px}
+  input,select{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:11px 12px;color:#fff;font-size:13px;font-weight:600;outline:none;color-scheme:dark}
+  input:focus,select:focus{border-color:rgba(0,229,255,.6)}input[type=range]{accent-color:var(--pink);padding:0;border:0}
+  .chips{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .chip{padding:10px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.05);color:var(--mut);font-size:12px;font-weight:600}
+  .chip.on{border-color:var(--cyan);background:rgba(0,229,255,.1);color:var(--cyan)}
+  .f{display:grid;gap:14px}.num{font-size:26px;font-weight:800;margin-top:4px;display:block}
+  .hist{display:flex;justify-content:space-between;padding:12px 14px;background:var(--card);border:1px solid rgba(255,255,255,.05);border-radius:14px;margin-bottom:8px;font-size:12px}
+  .note{font-size:12px;color:var(--mut);line-height:1.6;background:rgba(19,23,34,.7);border:1px solid rgba(255,255,255,.05);border-radius:16px;padding:14px}
+  .note b{color:#fff}
+  #modal{position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:20px;z-index:20}
+  #modal.show{display:flex}#modal .card{max-width:400px;width:100%;margin:0;display:grid;gap:14px}
+  #toast{position:fixed;top:16px;left:50%;transform:translateX(-50%);background:var(--card);border:1px solid rgba(0,229,255,.6);padding:12px 18px;border-radius:16px;font-size:13px;font-weight:600;display:none;z-index:30;box-shadow:0 10px 30px rgba(0,0,0,.5);max-width:90%}
+  .hide{display:none}
+  @media(max-width:760px){
+    .grid2{grid-template-columns:1fr;gap:0}
+    nav{position:fixed;bottom:0;left:0;right:0;background:rgba(11,13,19,.96);border-top:1px solid var(--line);padding:10px 14px;margin:0;z-index:10}
+    nav button{max-width:none}.app{padding:16px 16px 100px}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div><div class="logo">PACT<i></i></div><div class="sub">L'engagement sportif</div></div>
+    <div class="pill"><small>Mises protégées</small><b id="saved">0 €</b></div>
+  </header>
+  <nav id="nav"></nav>
+  <main id="main"></main>
+</div>
+<div id="modal"></div>
+<div id="toast"></div>
+
+<script>
+/* Stockage : localStorage si dispo (sinon mémoire, ex. sandbox Google Sites) */
+var mem = {};
+var store = {
+  get: function(k){ try { return localStorage.getItem(k); } catch(e){ return mem[k] || null; } },
+  set: function(k,v){ try { localStorage.setItem(k,v); } catch(e){ mem[k] = v; } }
+};
+var DAYS=['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'],FULL=['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche'];
+var MONTHS=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+var SPORTS=['Musculation','Running','CrossFit','Boxe','Yoga','Natation','Vélo','Autre'],NGOS=['UNICEF','WWF','Croix-Rouge','MSF'];
+var GRACE=60;
+var S=(function(){ try{ var d=JSON.parse(store.get('pact_v1')); if(d) return d; }catch(e){} return {pacts:[],ngo:'UNICEF',nextId:1}; })();
+var view='agenda',weekOff=0,sport='Musculation',sel=ymd(new Date()),createDate=null;
+
+function save(){ store.set('pact_v1',JSON.stringify(S)); }
+function pad(n){return String(n).padStart(2,'0');}
+function ymd(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());}
+function pd(s){var a=s.split('-');return new Date(+a[0],+a[1]-1,+a[2]);}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function eur(n){return (Math.round(n*100)/100).toFixed(2).replace('.',',')+' €';}
+function startMs(p){var t=p.time.split(':');var d=pd(p.date);d.setHours(+t[0],+t[1],0,0);return d.getTime();}
+function weekDays(){var m=new Date();m.setHours(0,0,0,0);m.setDate(m.getDate()-((m.getDay()+6)%7)+weekOff*7);var o=[];for(var i=0;i<7;i++){var d=new Date(m);d.setDate(m.getDate()+i);o.push(d);}return o;}
+function toast(t){var e=document.getElementById('toast');e.textContent=t;e.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(function(){e.style.display='none';},2800);}
+
+/* Séances non validées à temps → débitées automatiquement */
+function autoResolve(){
+  var ch=false;
+  S.pacts.forEach(function(p){ if(p.status==='pending' && Date.now()>startMs(p)+GRACE*60000){p.status='failed';p.auto=true;p.ngo=S.ngo;ch=true;} });
+  if(ch) save();
+}
+function stats(){
+  var r={saved:0,lost:0,done:0,failed:0,byNgo:{},streak:0};
+  S.pacts.forEach(function(p){
+    if(p.status==='done'){r.saved+=p.stake;r.done++;}
+    if(p.status==='failed'){r.lost+=p.stake;r.failed++;var n=p.ngo||S.ngo;r.byNgo[n]=(r.byNgo[n]||0)+p.stake*0.2;}
+  });
+  var cl=S.pacts.filter(function(p){return p.status!=='pending';}).sort(function(a,b){return startMs(b)-startMs(a);});
+  for(var i=0;i<cl.length;i++){if(cl[i].status!=='done')break;r.streak++;}
+  return r;
+}
+
+function setView(v){view=v;render();window.scrollTo(0,0);}
+function render(){
+  autoResolve();
+  var tabs=[['agenda','Agenda'],['create','+ Séance'],['impact','Impact']];
+  document.getElementById('nav').innerHTML=tabs.map(function(t){return '<button class="'+(view===t[0]?'on':'')+'" onclick="setView(\''+t[0]+'\')">'+t[1]+'</button>';}).join('');
+  document.getElementById('saved').textContent=(Math.round(stats().saved*100)/100)+' €';
+  ({agenda:vAgenda,create:vCreate,impact:vImpact})[view]();
+}
+
+function vAgenda(){
+  var wd=weekDays(),today=ymd(new Date());
+  var bar=wd.map(function(d,i){
+    var k=ymd(d),l=S.pacts.filter(function(p){return p.date===k;}),c='';
+    if(l.length) c=l.some(function(p){return p.status==='pending';})?'p':l.every(function(p){return p.status==='done';})?'d':'f';
+    return '<button class="day '+(k===sel?'on':'')+'" onclick="selDay(\''+k+'\')"><span>'+DAYS[i]+'</span><b style="'+(k===today?'color:var(--cyan)':'')+'">'+pad(d.getDate())+'</b><i class="dot '+c+'"></i></button>';
+  }).join('');
+  var list=S.pacts.filter(function(p){return p.date===sel;}).sort(function(a,b){return a.time<b.time?-1:1;});
+  var di=(pd(sel).getDay()+6)%7;
+  var cards=list.length?list.map(card).join(''):
+    '<div class="card"><div class="row"><span class="t" style="font-weight:600">'+FULL[di]+' • Repos</span><span class="badge" style="color:var(--mut);border-color:var(--line)">Aucune mise</span></div><h2 style="margin-top:14px">Jour de repos</h2><p class="t" style="margin:4px 0 20px">Aucun entraînement prévu ce jour</p><button class="btn-o" onclick="createFor(\''+sel+'\')">+ Ajouter une séance ce jour</button></div>';
+  var m1=MONTHS[wd[0].getMonth()]+(wd[0].getMonth()!==wd[6].getMonth()?' / '+MONTHS[wd[6].getMonth()]:'')+' '+wd[6].getFullYear();
+  document.getElementById('main').innerHTML='<div class="grid2"><div>'+
+    '<div class="row" style="margin-bottom:12px"><button class="btn-g" onclick="shift(-1)">‹</button><div style="text-align:center"><div style="font-size:13px;font-weight:600">'+m1+'</div><div class="t">'+(weekOff===0?'Semaine en cours':'Semaine '+(weekOff>0?'+':'')+weekOff)+'</div></div><button class="btn-g" onclick="shift(1)">›</button></div>'+
+    '<div class="week">'+bar+'</div>'+
+    '<div class="note" style="margin-top:18px"><b>Fonctionnement :</b> valide ta séance pour conserver ta mise (jusqu\'à '+GRACE+' min après l\'heure). Sinon elle est débitée : <span style="color:var(--cyan)">20 % pour une ONG</span>, <span style="color:var(--pink)">80 % pour PACT</span>.</div></div>'+
+    '<div>'+cards+'</div></div>';
+}
+function card(p){
+  var di=(pd(p.date).getDay()+6)%7,done=p.status==='done',fail=p.status==='failed',a='';
+  var badge=done?['b-cy',p.stake+' € protégés']:fail?['b-pk','Perdu : -'+p.stake+' €']:['b-pk','Mise : '+p.stake+' €'];
+  if(p.status==='pending'){
+    a='<button class="btn btn-c" onclick="openCheck('+p.id+')">Valider ma séance</button>'+
+      '<div class="two"><button class="btn-g" '+(p.delayed?'disabled':'')+' onclick="delay('+p.id+')">'+(p.delayed?'Retard utilisé':'Retard +20 min')+'</button><button class="btn-r" onclick="openMiss('+p.id+')">Passer la séance</button></div>'+
+      '<button style="background:none;border:0;color:#64748B;font-size:11px" onclick="del('+p.id+')">Supprimer cette séance</button>';
+  } else if(done){
+    a='<div class="res d">Séance validée — Aucun débit'+(p.log?'<small>'+esc(p.log)+'</small>':'')+'</div>';
+  } else {
+    a='<div class="res f">'+(p.auto?'Non validée à temps':'Séance manquée')+' — Mise débitée<small>'+eur(p.stake*0.2)+' pour '+esc(p.ngo||S.ngo)+' • '+eur(p.stake*0.8)+' pour PACT</small></div>';
+  }
+  return '<div class="card '+(fail?'pk':'cy')+'"><div class="row" style="margin-bottom:14px"><span class="c">'+FULL[di]+' • '+p.time+(p.delayed?' (+20 min)':'')+'</span><span class="badge '+badge[0]+'">'+badge[1]+'</span></div>'+
+    '<h2>'+esc(p.sport)+'</h2><p class="t" style="margin:4px 0 0">'+(p.place?'Lieu : '+esc(p.place):'Lieu non précisé')+'</p><div class="acts">'+a+'</div></div>';
+}
+function selDay(k){sel=k;vAgenda();}
+function shift(n){weekOff+=n;var w=weekDays();sel=ymd(weekOff===0?new Date():w[0]);render();}
+function createFor(k){createDate=k;setView('create');}
+
+function find(id){return S.pacts.filter(function(p){return p.id===id;})[0];}
+function delay(id){var p=find(id);if(!p||p.delayed)return;var d=new Date(startMs(p)+20*60000);p.date=ymd(d);p.time=pad(d.getHours())+':'+pad(d.getMinutes());p.delayed=true;save();toast('Horaire décalé à '+p.time+' sans pénalité');render();}
+function del(id){S.pacts=S.pacts.filter(function(p){return p.id!==id;});save();toast('Séance supprimée');render();}
+function openModal(h){var m=document.getElementById('modal');m.innerHTML=h;m.className='show';}
+function closeModal(){document.getElementById('modal').className='';}
+function openCheck(id){
+  openModal('<div class="card cy"><div class="row"><b>Valider ma présence</b><button class="btn-g" onclick="closeModal()">Fermer</button></div>'+
+    '<div class="row" style="background:var(--bg);border:1px solid rgba(0,229,255,.3);border-radius:12px;padding:12px"><span class="t">Position GPS</span><span id="gps" class="t" style="font-weight:600">Localisation…</span></div>'+
+    '<div><label>Séance / Muscles travaillés</label><input id="l1" placeholder="ex. Haut du corps / Pectoraux"></div>'+
+    '<div><label>Charges / Résumé</label><input id="l2" placeholder="ex. 4 x 10 reps @ 80 kg"></div>'+
+    '<button class="btn btn-c" onclick="confirmCheck('+id+')">Confirmer et protéger ma mise</button></div>');
+  var g=document.getElementById('gps');
+  if(!navigator.geolocation){g.textContent='Indisponible (optionnel)';return;}
+  navigator.geolocation.getCurrentPosition(function(p){g.textContent='Confirmée (±'+Math.round(p.coords.accuracy)+' m)';g.style.color='var(--cyan)';},function(){g.textContent='Non disponible (optionnel)';},{timeout:8000});
+}
+function confirmCheck(id){var p=find(id);if(!p)return;p.status='done';var a=document.getElementById('l1').value.trim(),b=document.getElementById('l2').value.trim();p.log=[a,b].filter(Boolean).join(' • ');save();closeModal();toast('Séance validée • '+p.stake+' € protégés 🎉');render();}
+function openMiss(id){var p=find(id);openModal('<div class="card pk"><b>Passer la séance ?</b><p class="t" style="line-height:1.6;margin:0">Ta mise de <b style="color:var(--pink)">'+p.stake+' €</b> sera débitée : '+eur(p.stake*0.2)+' pour '+esc(S.ngo)+', '+eur(p.stake*0.8)+' pour PACT.</p><div class="two"><button class="btn-g" onclick="closeModal()">Retour</button><button class="btn-p btn" style="padding:10px" onclick="doMiss('+id+')">Confirmer</button></div></div>');}
+function doMiss(id){var p=find(id);p.status='failed';p.ngo=S.ngo;save();closeModal();toast('Séance manquée • mise débitée');render();}
+
+function vCreate(){
+  var today=ymd(new Date()),d=createDate||sel;if(d<today)d=today;
+  document.getElementById('main').innerHTML='<div style="max-width:520px;margin:0 auto"><h3>Nouvel entraînement</h3><p class="t" style="margin:4px 0 16px">Planifie ta séance et fixe ton engagement.</p><div class="card f">'+
+    '<div><label>Activité</label><div class="chips">'+SPORTS.map(function(s){return '<button class="chip '+(s===sport?'on':'')+'" onclick="pickSport(\''+s+'\')">'+s+'</button>';}).join('')+'</div></div>'+
+    '<div><label>Lieu</label><input id="place" placeholder="ex. Fitness Park" maxlength="100"></div>'+
+    '<div class="two"><div><label>Date</label><input id="date" type="date" min="'+today+'" value="'+d+'"></div><div><label>Heure</label><input id="time" type="time" value="19:00"></div></div>'+
+    '<div style="border-top:1px solid var(--line);padding-top:14px"><div class="row" style="margin-bottom:8px"><label style="margin:0">Mise engagée (1 € à 10 €)</label><b id="sd" style="color:var(--pink);font-size:16px">5 €</b></div><input id="stake" type="range" min="1" max="10" value="5" oninput="upStake(this.value)"><div class="row t" style="margin-top:8px"><span>Si séance manquée :</span><b id="sp" style="color:#E2E8F0">1,00 € ONG • 4,00 € PACT</b></div></div>'+
+    '<button class="btn btn-p" onclick="saveNew()">Enregistrer la séance</button></div></div>';
+  createDate=null;
+}
+function pickSport(s){sport=s;var v=['place','date','time','stake'].map(function(i){return document.getElementById(i).value;});vCreate();['place','date','time','stake'].forEach(function(i,n){document.getElementById(i).value=v[n];});upStake(v[3]);}
+function upStake(v){v=+v;document.getElementById('sd').textContent=v+' €';document.getElementById('sp').textContent=eur(v*0.2).replace(' €','')+' € ONG • '+eur(v*0.8).replace(' €','')+' € PACT';}
+function saveNew(){
+  var date=document.getElementById('date').value,time=document.getElementById('time').value;
+  if(!date||!time)return toast('Choisis une date et une heure');
+  var p={id:S.nextId++,sport:sport,place:document.getElementById('place').value.trim(),date:date,time:time,stake:+document.getElementById('stake').value,status:'pending',delayed:false};
+  if(startMs(p)<Date.now())return toast('Impossible de programmer une séance dans le passé');
+  S.pacts.push(p);save();
+  var mon=new Date();mon.setHours(0,0,0,0);mon.setDate(mon.getDate()-((mon.getDay()+6)%7));var dm=pd(date);dm.setDate(dm.getDate()-((dm.getDay()+6)%7));
+  weekOff=Math.round((dm-mon)/(7*864e5));sel=date;view='agenda';render();toast('Séance programmée : '+p.sport+' ('+p.stake+' €)');
+}
+
+function vImpact(){
+  var s=stats(),hist=S.pacts.filter(function(p){return p.status!=='pending';}).sort(function(a,b){return startMs(b)-startMs(a);}).slice(0,10);
+  var ng=Object.keys(s.byNgo).map(function(n){return '<div class="row t"><span>'+esc(n)+'</span><span style="color:#E2E8F0">'+eur(s.byNgo[n])+'</span></div>';}).join('');
+  document.getElementById('main').innerHTML='<div class="grid2"><div>'+
+    '<h3>Bilan & Répartition</h3><p class="t" style="margin:4px 0 16px">Suivi de tes mises et reversements associatifs.</p>'+
+    '<div class="two" style="margin-bottom:16px"><div class="card" style="margin:0;padding:16px;border-color:rgba(0,229,255,.3)"><span class="t">Mises protégées</span><span class="num" style="color:var(--cyan)">'+eur(s.saved)+'</span><span class="t">'+s.done+' séance(s)</span></div><div class="card" style="margin:0;padding:16px;border-color:rgba(255,42,133,.3)"><span class="t">Mises perdues</span><span class="num" style="color:var(--pink)">'+eur(s.lost)+'</span><span class="t">'+s.failed+' séance(s)</span></div></div>'+
+    '<div class="card row" style="padding:16px"><b style="font-size:13px">🔥 Série en cours</b><b style="font-size:20px">'+s.streak+'</b></div>'+
+    '<div class="card" style="display:grid;gap:14px"><div class="row" style="border-bottom:1px solid var(--line);padding-bottom:12px"><div><b style="color:var(--cyan);font-size:12px;display:block">20 % Association</b><span class="t">Reversé aux ONG sélectionnées</span></div><b style="font-size:14px">'+eur(s.lost*0.2)+'</b></div>'+ng+
+    '<div class="row"><div><b style="color:var(--pink);font-size:12px;display:block">80 % PACT</b><span class="t">Fonctionnement de l\'application</span></div><b style="font-size:14px">'+eur(s.lost*0.8)+'</b></div></div></div>'+
+    '<div><label>Association soutenue (20 %)</label><div class="chips" style="margin-bottom:20px">'+NGOS.map(function(n){return '<button class="chip '+(n===S.ngo?'on':'')+'" onclick="setNgo(\''+n+'\')">'+n+'</button>';}).join('')+'</div>'+
+    '<label>Historique</label>'+(hist.length?hist.map(function(p){return '<div class="hist"><div><b style="display:block">'+esc(p.sport)+'</b><span class="t">'+pd(p.date).toLocaleDateString('fr-FR',{day:'numeric',month:'short'})+' • '+p.time+'</span></div><b style="color:'+(p.status==='done'?'var(--cyan)':'var(--pink)')+'">'+(p.status==='done'?'✓ '+p.stake+' €':'−'+p.stake+' €')+'</b></div>';}).join(''):'<p class="t">Aucune séance clôturée pour l\'instant.</p>')+
+    '<button class="btn-g" style="margin-top:16px;width:100%" onclick="resetAll()">Réinitialiser mes données</button></div></div>';
+}
+function setNgo(n){S.ngo=n;save();toast('Association sélectionnée : '+n);vImpact();}
+function resetAll(){openModal('<div class="card pk"><b>Tout réinitialiser ?</b><p class="t" style="margin:0">Toutes tes séances seront supprimées.</p><div class="two"><button class="btn-g" onclick="closeModal()">Annuler</button><button class="btn-p btn" style="padding:10px" onclick="S={pacts:[],ngo:S.ngo,nextId:1};save();closeModal();render();">Supprimer</button></div></div>');}
+
+setInterval(function(){ if(view==='agenda' && document.getElementById('modal').className!=='show') render(); },60000);
+render();
+</script>
+</body>
+</html>
+
